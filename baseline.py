@@ -31,16 +31,16 @@ plt.show()
 
 model = models.Sequential()
 # CNN part
-model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
-model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-model.add(layers.MaxPooling2D((2, 2)))
-model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(layers.TimeDistributed(Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3))))
+model.add(layers.TimeDistributed(MaxPooling2D((2, 2))))
+model.add(layers.TimeDistributed(Conv2D(64, (3, 3), activation='relu')))
+model.add(layers.TimeDistributed(MaxPooling2D((2, 2))))
+model.add(layers.TimeDistributed(Conv2D(64, (3, 3), activation='relu')))
 
 # Flatten CNN output
-model.add(layers.Flatten())
+model.add(layers.TimeDistributed(Flatten()))
 
-# TODO: integrate input from sensor
+#TODO: integrate data from sensors
 
 # RNN part
 model.add(layers.Embedding(input_dim=1000, output_dim=64))
@@ -52,7 +52,20 @@ model.add(layers.LSTM(128))
 model.add(layers.Dense(64, activation='relu'))
 model.add(layers.Dense(1))
 
+model = keras.Sequential()
+# Add an Embedding layer expecting input vocab of size 1000, and
+# output embedding dimension of size 64.
+model.add(layers.Embedding(input_dim=1000, output_dim=64))
+
+# Add a LSTM layer with 128 internal units.
+model.add(layers.LSTM(128))
+
+# Add a Dense layer with 10 units.
+model.add(layers.Dense(10))
+
 model.summary()
+
+
 
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
