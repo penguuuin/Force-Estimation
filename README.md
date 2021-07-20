@@ -7,8 +7,8 @@ To estimate the force that is *about to be* applied by a surgical robot arm.
 
 ### Baseline model
 * The structure of our baseline model uses essentially the same structure of network as mentioned in Force-Estimation ref2.
-* The baseline model consists of two parts: a CNN which takes in an image and extracts its feature at a time and a RNN which takes in a sequence of processed images and makes inference based on the time-series data. The two models are combined and called R-CNN which involves some extra layers to handle the connection.
-* Only the training part of the baseline model was implemented.
+* The baseline model consists of two parts: a CNN which takes in an image and extracts its feature at a time and a RNN which takes in a sequence of processed images and makes inference based on the time-series data. The two models are combined using TimeDistributed layer in keras to handle the connection so that the RNN receives input after a given number of timestamps.
+* Only the training part of the baseline model was implemented. 
 
 ### Actual model
 * In our actual model (as described in task) the most important difference is that we need to incorporate the data from sensor with our processed images so that the RNN makes inference from both information.
